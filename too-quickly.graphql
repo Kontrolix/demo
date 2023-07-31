@@ -1,3 +1,1 @@
-mutation($repo: ID!) {
-    i001: createPullRequest(input: { baseRefName: main, headRefName: "test", repositoryId=$repo_id, title="test" })
-}
+mutation($repo_id: ID!) {i0: createPullRequest(input: { baseRefName: "main", headRefName: "1690812099_0", repositoryId: $repo_id, title: "fix: a fix" }){pullRequest{ url } },i1: createPullRequest(input: { baseRefName: "main", headRefName: "1690812105_1", repositoryId: $repo_id, title: "fix: a fix" }){pullRequest{ url } },i2: createPullRequest(input: { baseRefName: "main", headRefName: "1690812107_2", repositoryId: $repo_id, title: "fix: a fix" }){pullRequest{ url } }}
