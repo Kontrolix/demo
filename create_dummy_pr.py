@@ -34,7 +34,7 @@ try:
             "-F",
             "query=@too-quickly.graphql",
             "-f",
-            'repo_id="$(gh repo view "Kontrolix/demo" --json id -q .id)"',
+            'repo_id=$(gh repo view "Kontrolix/demo" --json id -q .id)',
         ]
     )
 finally:
