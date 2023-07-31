@@ -26,6 +26,9 @@ try:
 
     with open("too-quickly.graphql", "w") as f:
         f.write(f"mutation($repo_id: ID!) {{{','.join(graphql_query)}}}")
+
+    # NOTE: correspond à: gh repo view Kontrolix/demo --json id -q .id
+    repo_id = "R_kgDOKBn23Q"
     subprocess.call(
         [
             "gh",
@@ -34,7 +37,7 @@ try:
             "-F",
             "query=@too-quickly.graphql",
             "-f",
-            "repo_id=$(gh repo view Kontrolix/demo --json id -q .id)",
+            f"repo_id={repo_id}",
         ]
     )
 finally:
