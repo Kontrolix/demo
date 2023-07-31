@@ -22,6 +22,7 @@ try:
 
         retry = 0
         while 1:
+            time.sleep(1.5)
             try:
                 subprocess.check_call(
                     [
@@ -41,6 +42,6 @@ try:
                 retry += 1
                 if retry > 5:
                     raise
-                time.sleep(10 * retry)
+                time.sleep(60 * retry)
 finally:
     subprocess.check_call(["git", "checkout", "main"])
