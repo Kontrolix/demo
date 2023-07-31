@@ -18,7 +18,7 @@ try:
         subprocess.check_call(["git", "add", "--all"])
         subprocess.check_call(["git", "commit", "-a", "-m", title])
 
-        subprocess.call(["git", "--set-upstream", "origin", branch])
+        subprocess.call(["git", "push", "--set-upstream", "origin", branch])
 
         subprocess.check_call(
             [
