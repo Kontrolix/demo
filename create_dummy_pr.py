@@ -7,7 +7,7 @@ pr_title = ["feat: A new feature", "fix: a fix", "chore: typo"]
 graphql_query_template = 'i{}: createPullRequest(input: {{ baseRefName: "main", headRefName: "{}", repositoryId: $repo_id, title: "{}" }}){{pullRequest{{ url }} }}'
 graphql_query = []
 try:
-    for i in range(10):
+    for i in range(50):
         branch = f"{int(time.time())}_{i}"
 
         title = random.choice(pr_title)
@@ -24,11 +24,15 @@ try:
 
         graphql_query.append(graphql_query_template.format(i, branch, title))
 
+        subprocess.check_call(["git", "checkout", "main"])
+
     with open("too-quickly.graphql", "w") as f:
         f.write(f"mutation($repo_id: ID!) {{{','.join(graphql_query)}}}")
 
     # NOTE: correspond à: gh repo view Kontrolix/demo --json id -q .id
     repo_id = "R_kgDOKBn23Q"
+
+    # NOTE: gh api graphql -F query=@too-quickly.graphql -f repo_id="$(gh repo view "Kontrolix/demo" --json id -q .id)"
     subprocess.call(
         [
             "gh",
@@ -40,5 +44,6 @@ try:
             f"repo_id={repo_id}",
         ]
     )
+
 finally:
     subprocess.check_call(["git", "checkout", "main"])
