@@ -1,0 +1,19 @@
+name: Continuous Integration
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.head_ref || github.run_id }}"
+  cancel-in-progress: true
+
+jobs:
+  my_one_minute_CI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Waiting one minute
+        run: |
+          echo "Wainting one minute"
+          sleep 60
+          echo "one minute has passed"
