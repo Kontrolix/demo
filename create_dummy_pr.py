@@ -5,17 +5,30 @@ import random
 pr_title = ["feat: A new feature", "fix: a fix", "chore: typo"]
 
 for i in range(3):
-    branch = f"{time.time()}_{i}"
+    branch = f"{int(time.time())}_{i}"
 
     title = random.choice(pr_title)
 
-    subprocess.check_call(f"git checkout -b {branch}")
+    subprocess.check_call(["git", "checkout", "-b", branch])
 
     with open(f"dummy_files/{branch}.txt", "w") as f:
         f.write("foo")
 
-    subprocess.check_call(f"!git add --all && git commit -a -m {title}")
+    subprocess.check_call(["git", "add", "--all"])
+    subprocess.check_call(["git", "commit", "-a", "-m", title])
 
-    subprocess.check_call(f"git --set-upstream origin {branch}")
+    subprocess.call(["git", "--set-upstream", "origin", branch])
 
-    subprocess.check_call(f"gh pr create --title {title} --body '{title}' --base main")
+    subprocess.check_call(
+        [
+            "gh",
+            "pr",
+            "create",
+            "--title",
+            title,
+            "--body",
+            title,
+            "--base",
+            "main",
+        ]
+    )
