@@ -38,9 +38,9 @@ try:
                 )
                 break
             except subprocess.CalledProcessError:
-                time.sleep(random.random() + retry)
                 retry += 1
                 if retry > 5:
                     raise
+                time.sleep(10 * retry)
 finally:
     subprocess.check_call(["git", "checkout", "main"])
