@@ -19,7 +19,7 @@ try:
         subprocess.check_call(["git", "commit", "-a", "-m", title])
 
         subprocess.call(["git", "push", "--set-upstream", "origin", branch])
-
+        time.sleep(random.random() + random.randint(0, 1))
         subprocess.check_call(
             [
                 "gh",
