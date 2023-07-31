@@ -20,18 +20,27 @@ try:
 
         subprocess.call(["git", "push", "--set-upstream", "origin", branch])
 
-        subprocess.check_call(
-            [
-                "gh",
-                "pr",
-                "create",
-                "--title",
-                title,
-                "--body",
-                title,
-                "--base",
-                "main",
-            ]
-        )
+        retry = 0
+        while 1:
+            try:
+                subprocess.check_call(
+                    [
+                        "gh",
+                        "pr",
+                        "create",
+                        "--title",
+                        title,
+                        "--body",
+                        title,
+                        "--base",
+                        "main",
+                    ]
+                )
+                break
+            except subprocess.CalledProcessError:
+                retry += 1
+                if retry > 5:
+                    raise
+                time.sleep(10 * retry)
 finally:
     subprocess.check_call(["git", "checkout", "main"])
