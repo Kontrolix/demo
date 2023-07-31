@@ -4,6 +4,8 @@ import random
 
 pr_title = ["feat: A new feature", "fix: a fix", "chore: typo"]
 
+graphql_query_template = 'i{}: createPullRequest(input: { baseRefName: "main", headRefName: "{}", repositoryId: $repo_id, title: "{}" }){pullRequest{ url } }'
+graphql_query = []
 try:
     for i in range(55):
         branch = f"{int(time.time())}_{i}"
@@ -20,28 +22,10 @@ try:
 
         subprocess.call(["git", "push", "--set-upstream", "origin", branch])
 
-        retry = 0
-        while 1:
-            time.sleep(1.5)
-            try:
-                subprocess.check_call(
-                    [
-                        "gh",
-                        "pr",
-                        "create",
-                        "--title",
-                        title,
-                        "--body",
-                        title,
-                        "--base",
-                        "main",
-                    ]
-                )
-                break
-            except subprocess.CalledProcessError:
-                retry += 1
-                if retry > 5:
-                    raise
-                time.sleep(60 * retry)
+        graphql_query.append(graphql_query_template.format(i, branch, title))
+
+    with open("too-quickly.graphql", "w") as f:
+        f.write(f"mutation($repo_id: ID!) {{','.join(graphql_query)}}")
+    # gh api graphql -F query=@too-quickly.graphql -f repo_id="$(gh repo view "Kontrolix/demo" --json id -q .id)"
 finally:
     subprocess.check_call(["git", "checkout", "main"])
