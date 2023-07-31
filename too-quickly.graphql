@@ -1,3 +1,1 @@
-mutation($repo_id: ID!) {
-    i001: createPullRequest(input: { baseRefName: "main", headRefName: "test", repositoryId: $repo_id, title: "test" }){pullRequest{ url } }
-}
+mutation($repo_id: ID!) {','.join(graphql_query)}
