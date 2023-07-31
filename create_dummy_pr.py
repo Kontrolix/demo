@@ -4,7 +4,7 @@ import random
 
 pr_title = ["feat: A new feature", "fix: a fix", "chore: typo"]
 
-graphql_query_template = 'i{}: createPullRequest(input: { baseRefName: "main", headRefName: "{}", repositoryId: $repo_id, title: "{}" }){pullRequest{ url } }'
+graphql_query_template = 'i{}: createPullRequest(input: {{ baseRefName: "main", headRefName: "{}", repositoryId: $repo_id, title: "{}" }}){{pullRequest{{ url }} }}'
 graphql_query = []
 try:
     for i in range(55):
