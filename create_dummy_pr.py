@@ -19,19 +19,28 @@ try:
         subprocess.check_call(["git", "commit", "-a", "-m", title])
 
         subprocess.call(["git", "push", "--set-upstream", "origin", branch])
-        time.sleep(random.random() + random.randint(0, 1))
-        subprocess.check_call(
-            [
-                "gh",
-                "pr",
-                "create",
-                "--title",
-                title,
-                "--body",
-                title,
-                "--base",
-                "main",
-            ]
-        )
+
+        retry = 0
+        while 1:
+            try:
+                subprocess.check_call(
+                    [
+                        "gh",
+                        "pr",
+                        "create",
+                        "--title",
+                        title,
+                        "--body",
+                        title,
+                        "--base",
+                        "main",
+                    ]
+                )
+                break
+            except subprocess.CalledProcessError:
+                time.sleep(random.random() + retry)
+                retry += 1
+                if retry > 5:
+                    raise
 finally:
     subprocess.check_call(["git", "checkout", "main"])
