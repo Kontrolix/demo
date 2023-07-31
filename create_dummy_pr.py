@@ -4,7 +4,7 @@ import random
 
 pr_title = ["feat: A new feature", "fix: a fix", "chore: typo"]
 
-graphql_query_template = 'i{}: createPullRequest(input: { baseRefName: "main", headRefName: "{}", repositoryId: $repo_id, title: "{}" }){pullRequest{ url } }'
+graphql_query_template = 'i{}: createPullRequest(input: {{ baseRefName: "main", headRefName: "{}", repositoryId: $repo_id, title: "{}" }}){{pullRequest{{ url }} }}'
 graphql_query = []
 try:
     for i in range(55):
@@ -12,17 +12,17 @@ try:
 
         title = random.choice(pr_title)
 
-        subprocess.check_call(["git", "checkout", "-b", branch])
+        # subprocess.check_call(["git", "checkout", "-b", branch])
 
-        with open(f"dummy_files/{branch}.txt", "w") as f:
-            f.write("foo")
+        # with open(f"dummy_files/{branch}.txt", "w") as f:
+        #     f.write("foo")
 
-        subprocess.check_call(["git", "add", "--all"])
-        subprocess.check_call(["git", "commit", "-a", "-m", title])
+        # subprocess.check_call(["git", "add", "--all"])
+        # subprocess.check_call(["git", "commit", "-a", "-m", title])
 
-        subprocess.call(["git", "push", "--set-upstream", "origin", branch])
+        # subprocess.call(["git", "push", "--set-upstream", "origin", branch])
 
-        graphql_query.append(graphql_query_template.format(i, branch, title))
+        # graphql_query.append(graphql_query_template.format(i, branch, title))
 
     with open("too-quickly.graphql", "w") as f:
         f.write(f"mutation($repo_id: ID!) {{','.join(graphql_query)}}")
