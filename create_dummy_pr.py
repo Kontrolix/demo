@@ -5,7 +5,7 @@ import random
 pr_title = ["feat: A new feature", "fix: a fix", "chore: typo"]
 
 for i in range(3):
-    branch = f"{time.time()}_{i}"
+    branch = f"{int(time.time())}_{i}"
 
     title = random.choice(pr_title)
 
