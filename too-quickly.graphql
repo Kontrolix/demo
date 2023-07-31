@@ -1,0 +1,3 @@
+mutation($repo: ID!) {
+    i001: createPullRequest(input: { baseRefName: main, headRefName: "test", repositoryId=$repo_id, title="test" })
+}
