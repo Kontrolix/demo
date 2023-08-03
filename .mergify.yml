@@ -1,16 +1,12 @@
 queue_rules:
-  - name: urgent
-    # This can be queued before CI finishes its first run
-    # if the PR has the urgent label
+  - name: default
     queue_conditions:
-      - label = urgent
-    # We still want the CI to pass to merge the PR
-    merge_conditions:
-      - check-success = my_one_minute_CI
-  - name: standard
-    # CI is needed for queueing and merging the PR
-    queue_conditions:
-      - check-success = my_one_minute_CI
+      - check-success=my_one_minute_CI
+    priority_rules:
+      - name: high priority
+        conditions:
+          - label=urgent
+        priority: high
 
 pull_request_rules:
   - name: automatic merge
